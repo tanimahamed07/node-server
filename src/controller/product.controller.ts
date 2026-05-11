@@ -2,6 +2,7 @@ import type { IncomingMessage, ServerResponse } from "http";
 import { insertProduct, readProduct } from "../service/product.service";
 import type { IProduct } from "../types/product.type";
 import { parseBody } from "../utility/partsBody";
+import { sendResponse } from "../utility/sendResponse";
 
 export const productController = async (
   req: IncomingMessage,
@@ -19,29 +20,20 @@ export const productController = async (
   // console.log("This is the acutal id : ", id);
   // Get All Products
   if (url === "/products" && method === "GET") {
-    const products = readProduct();
-
-    res.writeHead(200, { "content-type": "application/json" });
-    res.end(
-      JSON.stringify({
-        message: "Product retrived successfully",
-        data: products,
-      }),
-    );
+    try {
+      const products = readProduct();
+      return sendResponse(res, 200, true, "products retrived successfully");
+    } catch (error) {
+      return sendResponse(res, 500, false, "something went wrong");
+    }
   } else if (method === "GET" && id !== null) {
     {
       const products = readProduct(); // [{}]
 
       const product = products.find((p: IProduct) => p.id === id); // id === id
 
-      if(!product){
-            res.writeHead(404, { "content-type": "application/json" });
-      res.end(
-        JSON.stringify({
-          message: "Product not found",
-          data: product,
-        }),
-      );
+      if (!product) {
+        return sendResponse(res, 404, false, "Product not found");
       }
 
       res.writeHead(200, { "content-type": "application/json" });
