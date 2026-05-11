@@ -3,6 +3,7 @@ import fs from "fs";
 
 const filePath = path.join(process.cwd(), "./src/database/db.json");
 
+//get all product
 export const readProduct = () => {
   console.log(process.cwd());
   console.log("first", filePath);

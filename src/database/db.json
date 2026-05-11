@@ -1,1 +1,17 @@
-[{ "id": 1, "name": "Product -1" }]
+[
+  {
+    "id": 1,
+    "name": "Wireless Headphones",
+    "description": "High-quality noise-canceling over-ear headphones with 30-hour battery life."
+  },
+  {
+    "id": 2,
+    "name": "Smart Watch",
+    "description": "Fitness tracker with heart rate monitor, GPS, and water resistance up to 50m."
+  },
+  {
+    "id": 3,
+    "name": "Mechanical Keyboard",
+    "description": "RGB backlit mechanical keyboard with tactile blue switches for professional gaming."
+  }
+]
