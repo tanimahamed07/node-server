@@ -1,11 +1,13 @@
 import type { IncomingMessage, ServerResponse } from "http";
 import { readProduct } from "../service/product.service";
 import type { IProduct } from "../types/product.type";
+import { parseBody } from "../utility/partsBody";
 
 export const productController = async (
   req: IncomingMessage,
   res: ServerResponse,
 ) => {
+  console.log("request", req);
   const url = req.url;
   const method = req.method;
   // /products =>  /products/1  => ['','products','1']
@@ -40,5 +42,22 @@ export const productController = async (
         }),
       );
     }
+  } else if (method === "POST" && url === "/product") {
+    const body = await parseBody(req);
+    const products = readProduct();
+
+    const newProduct = {
+      id: Date.now(),
+      ...body,
+    };
+    products.push(newProduct);
+    console.log(newProduct);
+    res.writeHead(200, { "content-type": "application/json" });
+    res.end(
+      JSON.stringify({
+        message: "Product retrived successfully",
+        data: newProduct,
+      }),
+    );
   }
 };
